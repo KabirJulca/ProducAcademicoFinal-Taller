@@ -1,0 +1,27 @@
+@using  Model.Entity
+@model IEnumerable<Model.Entity.PermissionMenu>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<table>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.MenuID) </th>
+        <th>@Html.DisplayNameFor(model => model.DisplayName) </th>
+        <th>@Html.DisplayNameFor(model => model.ParentMenuID) </th>
+        <th>@Html.DisplayNameFor(model => model.PermissionType) </th>
+        <th>@Html.DisplayNameFor(model => model.Permission) </th>
+    </tr>
+    @foreach(var item in Model)
+    {
+    <tr>
+        <td>@Html.DisplayFor(idmenu=>item.MenuID)</td>
+        <td>@Html.DisplayFor(name => item.DisplayName)</td>
+        <td>@Html.DisplayFor(parent => item.ParentMenuID)</td>
+        <td>@Html.DisplayFor(type => item.PermissionType)</td>
+        <td>@Html.DisplayFor(per => item.Permission)</td>
+    </tr>
+     }
+</table>
+

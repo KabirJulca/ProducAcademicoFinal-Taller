@@ -1,0 +1,105 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title></title>
+
+    @Styles.Render("~/Public/principal")
+    @Styles.Render("~/Public/materialize")
+    @Scripts.Render("~/Public/jquery")
+
+</head>
+<body>
+    <div id="contenedor">
+        <center><img src="~/Content/img/logoluanK.png"></center>
+        <h4 id="url"></h4>
+        <form role="form" action="~/Home/Index" name="loginForm" id="loginForm" method="post">
+
+            <div class="input-field">
+                <input class="form-control" type="text" id="txtcorreo" name="txtcorreo" required />
+                <label for="txtcorreo">Usuario</label>
+            </div>
+
+            <div class="input-field">
+                <input class="form-control" type="password" id="txtpassword" name="txtpassword" required />
+                <label for="txtpassword">Contraseña</label>
+            </div>
+
+            <div class="input-field">
+                <input type="checkbox" value="R" name="chbrecordar" id="chbrecordar" />
+                <label for="chbrecordar">Recordar</label>
+            </div>
+            <br />
+            <div>
+                <center><input class="btn" type="submit" name="btnlogin" value="Login" /></center>
+                <!--<button id="btnurl">URL</button>-->
+
+            </div>
+        </form>
+    </div>
+    <div id="respuesta"></div>
+
+
+
+    <script>
+        /*
+        $(document).ready(function () {
+            $("#btnurl").click(function () {
+                var protocolo = window.location.protocol;
+                var URLhash = window.location.hash;
+                var URLdomain = window.location.host;
+                var pathname = window.location.pathname;
+                var URLactual = window.location.href;
+
+                $("#url").html("protocolo: " + protocolo + "<br>pathname: " + pathname + "<br>dom: " + URLdomain + "<br>URLactual: " + URLactual);
+
+            });
+        });
+        */
+        $(function () {
+            $("#loginForm").submit(function () {
+                    var datos = $("#loginForm").serialize();//el input debe tener el atributo 'name'
+                var curl = "";
+                var pathname = window.location.pathname;
+                if (pathname == "/Account/Login") {
+                    curl = "LoginValidaAjax";
+                } else {
+                    curl = "Account/LoginValidaAjax";
+                }
+                                
+                $.ajax({
+                        url: curl,
+                    data: datos,
+                    method: "post",
+                    cache: false,
+                    context: this,
+                    success: function (data) {
+                            if (data == "0") {//no existe usuario
+                            $("#respuesta").html("<pre><code style='color:red;font-size:30px'><i class='medium mdi-action-highlight-remove red-text'></i>No Existe Usuario!!!</code></pre>");
+                            } else if (data == "2") {
+                            $("#respuesta").html("<pre><code style='color:red;font-size:30px'><i class='medium mdi-action-highlight-remove red-text'></i>Clave Incorrecta!!!</code></pre>");
+                            } else {
+                                //$("#respuesta").html("<pre><code style='color:green;font-size:30px'><i class='medium mdi-social-person'></i>Usuario Logueado!!!</code></pre>");
+                                this.submit();
+                            }
+                            //$("#respuesta").html(data);
+                            //return false;
+                        }
+
+                    });
+                    return false;
+                });
+        });
+    </script>
+</body>
+
+</html>
+@Scripts.Render("~/Public/jquery")
+@Scripts.Render("~/Public/js")
+
+
